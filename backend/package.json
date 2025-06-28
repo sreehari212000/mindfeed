@@ -1,0 +1,24 @@
+{
+  "name": "mind-feed",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "initialize-qdrant-collection": "node ./utils/qdrant.js",
+    "initialize-postgres-db": "node ./db/initializeDb.js"
+  },
+  "dependencies": {
+    "@qdrant/js-client-rest": "^1.14.1",
+    "@xenova/transformers": "^2.17.2",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.0"
+  }
+}
