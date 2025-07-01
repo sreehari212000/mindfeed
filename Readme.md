@@ -22,7 +22,7 @@ Uses Hugging Face’s sentence-transformers/all-MiniLM-L6-v2 model to convert ar
 #### 🗃️ Vector Storage with Qdrant
 Stores and indexes article embeddings in Qdrant for fast and accurate semantic search.
 #### 🧾 Metadata Storage with PostgreSQL
-Stores article metadata and user-related data (like saved articles) in PostgreSQL for relational access and data integrity.
+Stores article metadata and user-related data in PostgreSQL for relational access and data integrity.
 #### 🔍 Semantic Search API
 Allows users to search for news based on topics or phrases. The system understands meaning, not just exact keywords.
 #### 🧑‍💼 User Management
