@@ -7,7 +7,7 @@ import errorHandler from "./middlewares/errorHandler.js"
 dotenv.config()
 const app = Express();
 app.use(Express.json())
-app.use('/api/feed/', feedRoutes)
+app.use('/api/news', feedRoutes)
 app.use('/api/users', userRoutes)
 app.use(errorHandler)
 let server

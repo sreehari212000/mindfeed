@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import sqlConnection from "../db/postgres.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
@@ -33,12 +33,14 @@ router.post('/signin', async(request, response, next)=>{
             error.statusCode = 404;
             throw error
         }
-        if(password !== result.rows[0].password_hash){
+        const isPasswordMatching = await bcrypt.compare(password, result.rows[0].password_hash);        
+        if(!isPasswordMatching){
             const error = new Error("You provided wrong credentials");
             error.statusCode = 401;
             throw error
         }
-        response.status(200).send({status: "Success", token: "4sdfq424eefewf23rf1sd"});
+        const token = jwt.sign({email}, process.env.JWT_SECRET)
+        response.status(200).send({status: "Success", token});
     } catch (error) {
         console.log("Error signing in user ", error);
         next(error);

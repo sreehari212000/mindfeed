@@ -22,7 +22,6 @@ export const insertIntoQdrant = async (id, vector, payload) => {
                 }
             ]
         })
-        console.log('Succesfully Inserted into Qdrant');
     } catch (error) {
         console.log('Could not insert into Qdrant ', error);
     }

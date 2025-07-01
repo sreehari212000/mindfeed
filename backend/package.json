@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "initialize-qdrant-collection": "node ./utils/qdrant.js",
-    "initialize-postgres-db": "node ./db/initializeDb.js"
+    "initialize-postgres-db": "node ./db/initializeDb.js",
+    "cron": "node ./ets/cronJob.js"
   },
   "dependencies": {
     "@qdrant/js-client-rest": "^1.14.1",
