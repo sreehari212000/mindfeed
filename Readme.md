@@ -36,4 +36,4 @@ Clean and responsive frontend built using React.js, Tailwind CSS and Shad CN.
 #### 📦 Dockerized Setup 
 The entire app will be containerized using Docker for easy deployment.
 #### ☁️ Cloud Deployment with AWS EKS 
-Will be deployed on AWS using Elastic Kubernetes Service for scalability and reliability.
+Will be deployed on AWS using Elastic Kubernetes Service for scalability.
