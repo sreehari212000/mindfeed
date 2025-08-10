@@ -4,7 +4,7 @@
 ### FRONTEND
 - React Js
 - Tailwind CSS
-- Shad CN
+- Daisy UI
 ### BACKEND
 - Node js
 - Express js
