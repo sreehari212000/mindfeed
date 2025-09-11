@@ -1,4 +1,4 @@
-import { processNewsArrayAndStoreInQdrant } from "./qdrant.js";
+import { processNewsArrayAndStoreInQdrant } from "../qdrant/qdrant.js";
 import { fetchFromApi } from "./fetchNewsFromApi.js";
 const cronJob = async () => {
     const newsData = await fetchFromApi();
