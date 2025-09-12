@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import NewsCard from '../components/NewsCard'
 
 const HomePage = () => {
+  const [news, setNews] = useState([])
   return (
     <div className=''>
         <div className='bg-[url("https://imageio.forbes.com/blogs-images/bernardmarr/files/2019/05/Artificial-Intelligence-Is-Creating-A-Fake-World-What-Does-That-Mean-For-Humans-1200x668.jpg?height=395&width=711&fit=bounds")] h-72 bg-cover bg-center flex justify-center items-center'>
@@ -16,7 +17,9 @@ const HomePage = () => {
             <h1 className='text-2xl font-bold'>Latest News</h1>
             <p>6 Articles</p>
           </div>
-          <NewsCard/> 
+          <div>
+            <NewsCard /> 
+          </div>
         </div>
     </div>
   )
