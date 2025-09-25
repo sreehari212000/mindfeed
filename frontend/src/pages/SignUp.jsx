@@ -1,13 +1,23 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppContext } from '../context/AppContext'
 
-const SignUp = () => {
+const SignUp = () => {  
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState("")
   const [interests, setInterests] = useState([])
   const [currentInterest, setCurrentInterest] = useState('')
-  const addInterest = () =>{
-
+  const addInterest = (e) =>{
+    e.preventDefault();
+    if(currentInterest.trim() === "")return
+    setInterests(prev => [...prev, currentInterest])
+    setCurrentInterest('')
+  }
+  const removeInterest = (interest) => {
+    setInterests((prev) => prev.filter(item => item !== interest))
   }
   return (
-    <div className='mt-16 flex justify-center '>
+    <div className='mt-16 flex justify-center'>
       <div className="border rounded-md flex flex-col items-center p-10 w-full max-w-md glass backdrop-blur-md gap-6 pb-14">
         <h3 className="size-10 flex justify-center items-center text-2xl bg-gray-800 rounded-md font-bold">M</h3>
         <h3 className='text-2xl font-semibold'>Create Your Account</h3>
@@ -51,7 +61,7 @@ const SignUp = () => {
         id="interests"
         type="text"
         placeholder="Add your interests (e.g., Technology, Sports, Health)"
-        className="input w-full"
+        className="input w-full border-0"
         value={currentInterest}
         onChange={(e) => setCurrentInterest(e.target.value)}
         onKeyDown={(e) => {
@@ -70,7 +80,7 @@ const SignUp = () => {
     </form>
 
     {interests.length > 0 && (
-      <div className="flex flex-wrap gap-2 p-3 bg-base-200 rounded-md">
+      <div className="flex flex-wrap gap-2 p-3 bg-base-200 rounded-md mt-4">
         {interests.map((interest, index) => (
           <div
             key={index}
@@ -98,9 +108,8 @@ const SignUp = () => {
     )}
   </div>
 </div>
-
-        <button className="btn overflow-hidden bg-white/70 backdrop-blur rounded-md text-black w-full">Sign In</button>
-    </div>
+  <button className="btn overflow-hidden bg-white/70 backdrop-blur rounded-md text-black w-full">Sign Up</button>
+  </div>
   </div>
   )
 }
