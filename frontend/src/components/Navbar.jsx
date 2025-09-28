@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { AppContext } from '../context/AppContext'
 
 const Navbar = () => {
+  const {user} = useContext(AppContext)
   return (
     <nav className='flex bg-black text-white p-2 justify-around items-center'>
         <div className='flex gap-2 items-center'>
