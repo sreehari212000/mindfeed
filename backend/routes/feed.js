@@ -14,6 +14,15 @@ router.get('/feed', checkAuth, async (request, response)=>{
         console.log(error);
     }
 });
+router.get('/latest', async(request, response)=>{
+    try {
+        const queryString = "latest news"
+        const res = await searchQdrant(queryString)
+        response.send({"status": "success", result: res})
+    } catch (error) {
+        console.log(error);
+    }
+})
 router.post('/search', async (request, response, next)=>{
     try {
         const { keyword } = request.body;

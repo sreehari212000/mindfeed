@@ -1,9 +1,27 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { data, Link } from 'react-router-dom'
 import NewsCard from '../components/NewsCard'
 
 const HomePage = () => {
   const [news, setNews] = useState([])
+  const [loading, setLoading] = useState(true)
+  console.log(news);
+  
+  useEffect(() => {
+    const fetchFromAPI = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/news/latest`)
+        const data = await res.json()
+        setNews(data.result)
+      } catch (error) {
+        console.log("Error fetching data!");
+      }finally{
+        setLoading(false)
+      }
+    }
+    fetchFromAPI()
+  }, [])
+  if(loading)return
   return (
     <div className=''>
         <div className='bg-[url("https://imageio.forbes.com/blogs-images/bernardmarr/files/2019/05/Artificial-Intelligence-Is-Creating-A-Fake-World-What-Does-That-Mean-For-Humans-1200x668.jpg?height=395&width=711&fit=bounds")] h-72 bg-cover bg-center flex justify-center items-center'>
@@ -15,10 +33,12 @@ const HomePage = () => {
         <div className='md:mx-[12%] '>
           <div className='flex justify-between my-5 items-center'>
             <h1 className='text-2xl font-bold'>Latest News</h1>
-            <p>6 Articles</p>
+            <p>{news.length} Articles</p>
           </div>
-          <div>
-            <NewsCard /> 
+          <div className='flex flex-wrap gap-8 mx-14'>
+            {
+              news.map((item) => <NewsCard key={item.id} author={item.payload.author} image={item.payload.image} publish_date={item.payload.publish_date} text={item.payload.text} title={item.payload.title}/> )
+            }
           </div>
         </div>
     </div>

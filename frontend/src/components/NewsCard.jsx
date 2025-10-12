@@ -1,20 +1,21 @@
 import React from 'react'
 import { IoOpenOutline } from "react-icons/io5";
 import { CiSaveDown2 } from "react-icons/ci";
+const RANDOM_URL = "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
 
-const NewsCard = () => {
+const NewsCard = ({title, author, image, text, publish_date}) => {    
   return (
     <div className="card bg-base-100 w-96 shadow-sm shadow-gray-500 rounded-lg hover:shadow-md bg-gradient-to-r from-gray-900 to-gray-800">
         <figure>
             <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                src={image ? image : RANDOM_URL}
                 alt="Shoes" />
         </figure>
         <div className="card-body">
-            <h2 className="card-title">AI-Powered Semantic Search Revolutionizes News Discovery</h2>
+            <h2 className="card-title">{title}</h2>
             <p>Discover how artificial intelligence is transforming the way we find and consume news content, making information discovery more intuitive and...</p>
             <div className="card-actions items-center">
-                <p className='font-bold'>News18</p>
+                <p className='font-bold'>{author ? author : "Unknown"}</p>
                 <button className="btn btn-xs rounded-sm hover:border-red-50" onClick={()=>document.getElementById('my_modal_3').showModal()}>View</button>
                 <dialog id="my_modal_3" className="modal">
                     <div className="modal-box w-11/12 max-w-5xl bg-gradient-to-r from-gray-900 to-gray-800 rounded-md">

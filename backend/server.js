@@ -4,9 +4,14 @@ import feedRoutes from "./routes/feed.js"
 import userRoutes from "./routes/user.js"
 import sqlConnection from "./db/postgres.js";
 import errorHandler from "./middlewares/errorHandler.js"
+import cors from "cors"
 dotenv.config()
 const app = Express();
 app.use(Express.json())
+app.use(cors({
+    origin: "*",
+    allowedHeaders: "*"
+}))
 app.use('/api/news', feedRoutes)
 app.use('/api/users', userRoutes)
 app.use(errorHandler)
