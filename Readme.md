@@ -28,11 +28,11 @@ Allows users to search for news based on topics or phrases. The system understan
 #### 🧑‍💼 User Management
 Users can sign up, log in, and save articles they’re interested in.
 
-## TODO
 #### 💾 Save Articles
 Users can bookmark articles. Each user can only save an article once (with uniqueness enforced in the DB).
 #### 📱 Frontend UI
 Clean and responsive frontend built using React.js, Tailwind CSS and Shad CN.
+## TODO
 #### 📦 Dockerized Setup 
 The entire app will be containerized using Docker for easy deployment.
 #### ☁️ Cloud Deployment with AWS EKS 
