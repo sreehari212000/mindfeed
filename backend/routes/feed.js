@@ -18,13 +18,12 @@ router.get('/latest', async(request, response, next)=>{
     try {
         const queryString = "latest news"
         const page = request.query.page || 1
-        console.log(page);
         if(isNaN(page)){
             throw new Error("Page is not a number")
         }
         const offset = page - 1
         const res = await searchQdrant(queryString, offset)
-        response.send({"status": "success", result: res})
+        response.send({"status": "success", "result": res, msg: "this is workgin funine"})
     } catch (error) {
         console.log(error);
         next(error)

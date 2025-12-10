@@ -1,32 +1,26 @@
 services:
-  app:
+  frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
-    env_file:
-      - .env
     ports:
-      - 3000:3000
+      - "3000:80"
+    env_file:
+      - ./frontend/.env
     depends_on:
-      - wait
+      - backend
     restart: unless-stopped
-    command: > 
-      sh -c "
-      npm run init-postgres-db &&
-      npm run init-qdrant &&
-      npm start
-      "
-  wait:
-    image: jwilder/dockerize
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
     depends_on:
       - postgres
       - qdrant
-    command: >
-      dockerize
-      -wait tcp://postgres:5432
-      -wait tcp://qdrant:6333
-      -timeout 60s
-
   postgres:
     image: postgres
     container_name: mindfeed_psql

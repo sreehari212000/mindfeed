@@ -1,7 +1,11 @@
 import {QdrantClient} from "@qdrant/js-client-rest"
-const qdrantClient = new QdrantClient({url: 'http://localhost:6333'})
 import { getTextEmbedding } from "./embed.js"
+import { config } from "dotenv"
+config()
 const COLLECTION = 'articles'
+const qdrantHost = process.env.QDRANT_HOST
+const qdrantport = process.env.QDRANT_PORT
+const qdrantClient = new QdrantClient({url: `http://${qdrantHost}:${qdrantport}`})
 export const initializeCollection = async () => {
     await qdrantClient.createCollection(COLLECTION, {
         vectors: {
@@ -44,6 +48,7 @@ export const processNewsArrayAndStoreInQdrant = async (newsData) => {
 export const searchQdrant = async (text, offset = 0) => {
     try {
         const vector = await getTextEmbedding(text);
+        console.log("ENV VALUES", qdrantHost, qdrantport);
         const data = await qdrantClient.search(COLLECTION, {
             vector,
             limit: 20,

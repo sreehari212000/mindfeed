@@ -11,7 +11,7 @@ const initilizeDb = async () => {
             is_active BOOLEAN DEFAULT TRUE
         );`);
         await sqlConnection.query(`
-            CREATE TABLE saved_articles (
+            CREATE TABLE IF NOT EXISTS saved_articles (
             id SERIAL PRIMARY KEY,
             user_id UUID REFERENCES users(id) ON DELETE CASCADE,
             article_id UUID NOT NULL,
