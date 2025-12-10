@@ -14,13 +14,20 @@ router.get('/feed', checkAuth, async (request, response)=>{
         console.log(error);
     }
 });
-router.get('/latest', async(request, response)=>{
+router.get('/latest', async(request, response, next)=>{
     try {
         const queryString = "latest news"
-        const res = await searchQdrant(queryString)
+        const page = request.query.page || 1
+        console.log(page);
+        if(isNaN(page)){
+            throw new Error("Page is not a number")
+        }
+        const offset = page - 1
+        const res = await searchQdrant(queryString, offset)
         response.send({"status": "success", result: res})
     } catch (error) {
         console.log(error);
+        next(error)
     }
 })
 router.post('/search', async (request, response, next)=>{

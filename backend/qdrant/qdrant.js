@@ -41,12 +41,13 @@ export const processNewsArrayAndStoreInQdrant = async (newsData) => {
         } 
     }
 }
-export const searchQdrant = async (text) => {
+export const searchQdrant = async (text, offset = 0) => {
     try {
         const vector = await getTextEmbedding(text);
         const data = await qdrantClient.search(COLLECTION, {
             vector,
-            limit: 20
+            limit: 20,
+            offset
         })
         return data;
     } catch (error) {
