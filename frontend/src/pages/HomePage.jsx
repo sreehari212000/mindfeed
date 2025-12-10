@@ -37,7 +37,7 @@ const HomePage = () => {
           </div>
           <div className='flex flex-wrap gap-8 mx-14'>
             {
-              news.map((item) => <NewsCard key={item.id} author={item.payload.author} image={item.payload.image} publish_date={item.payload.publish_date} text={item.payload.text} title={item.payload.title}/> )
+              news.map((item) => <NewsCard key={item.id} id={item.id} author={item.payload.author} image={item.payload.image} publish_date={item.payload.publish_date} text={item.payload.text} title={item.payload.title} url={item.payload.url}/> )
             }
           </div>
         </div>
