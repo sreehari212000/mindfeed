@@ -32,8 +32,8 @@ Users can sign up, log in, and save articles they’re interested in.
 Users can bookmark articles. Each user can only save an article once (with uniqueness enforced in the DB).
 #### 📱 Frontend UI
 Clean and responsive frontend built using React.js, Tailwind CSS and Shad CN.
-## TODO
 #### 📦 Dockerized Setup 
 The entire app will be containerized using Docker for easy deployment.
+## TODO
 #### ☁️ Cloud Deployment with AWS EKS 
 Will be deployed on AWS using Elastic Kubernetes Service for scalability.
