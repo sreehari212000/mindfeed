@@ -11,6 +11,7 @@ on:
     paths-ignore:
       - 'Readme.md'
       - '**/*.md'
+      - '.github/**'
 jobs:
   build:
     runs-on: ubuntu-latest
