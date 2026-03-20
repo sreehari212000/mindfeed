@@ -1,10 +1,57 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { IoOpenOutline } from "react-icons/io5";
 import { CiSaveDown2 } from "react-icons/ci";
 import { Link } from 'react-router-dom';
+import { AppContext } from '../context/AppContext'
 const RANDOM_URL = "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
 
-const NewsCard = ({title, id,  author, image, text, publish_date, url}) => {    
+const LOCALSTORAGE_KEY = 'savedNews'
+
+const NewsCard = ({title, id,  author, image, text, publish_date, url, onSavedChange}) => {
+  const { user } = useContext(AppContext)
+  const [isSaved, setIsSaved] = useState(false)
+
+  useEffect(() => {
+    try {
+      const existing = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY) || '[]')
+      setIsSaved(existing.some(item => item.id === id))
+    } catch (err) {
+      console.error('Failed reading saved articles from localStorage', err)
+    }
+  }, [id])
+
+  const handleToggleSave = () => {
+    try {
+      const existing = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY) || '[]')
+      const found = existing.find(item => item.id === id)
+
+      if (found) {
+        const next = existing.filter(item => item.id !== id)
+        localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(next))
+        setIsSaved(false)
+        if (onSavedChange) onSavedChange(id, false)
+        return
+      }
+
+      const toSave = {
+        id,
+        title,
+        author,
+        image,
+        text,
+        publish_date,
+        url,
+      }
+
+      const next = [...existing, toSave]
+      localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(next))
+      setIsSaved(true)
+      if (onSavedChange) onSavedChange(id, true)
+    } catch (err) {
+      console.error('Failed updating saved articles in localStorage', err)
+    }
+  }
+
   return (
     <div className="card bg-base-100 w-96 shadow-sm shadow-gray-500 rounded-lg hover:shadow-md bg-gradient-to-r from-gray-900 to-gray-800">
         <figure>
@@ -34,9 +81,18 @@ const NewsCard = ({title, id,  author, image, text, publish_date, url}) => {
                             </div>
                             <p className='font-semibold mx-3'>{text}</p>
                             <div className='mx-3 mt-4 flex gap-3 justify-end'>
-                                <button className='border px-4 py-1 cursor-pointer flex items-center gap-2 justify-center'><CiSaveDown2 /> save</button>
+                                {user && (
+                                  <button
+                                    onClick={handleToggleSave}
+                                    className='border px-4 py-1 cursor-pointer flex items-center gap-2 justify-center bg-white text-black hover:bg-gray-200 transition'
+                                  >
+                                    <CiSaveDown2 /> {isSaved ? 'Unsave' : 'Save'}
+                                  </button>
+                                )}
                                 <Link to={url} target='_blank'>
-                                    <button className='border px-4 py-1 cursor-pointer flex items-center gap-2 justify-center'><IoOpenOutline /> Read Full</button>
+                                    <button className='border px-4 py-1 cursor-pointer flex items-center gap-2 justify-center'>
+                                      <IoOpenOutline /> Read Full
+                                    </button>
                                 </Link>
                             </div>
                         </div>

@@ -2,7 +2,6 @@
 
 echo "Waiting for Qdrant to be ready..."
 
-# Optional small delay 
 sleep 5
 
 echo "Initializing Qdrant..."
