@@ -2,29 +2,56 @@ import express from "express";
 import { searchQdrant } from "../qdrant/qdrant.js";
 import { checkAuth } from "../middlewares/auth.js";
 const router = express.Router();
-router.get('/feed', checkAuth, async (request, response)=>{
+router.get('/feed', checkAuth, async (request, response, next)=>{
     try {
+        const page = Number(request.query.page) || 1
+        const pageSize = Number(request.query.pageSize) || 20
+
+        if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
+            return response.status(400).send({ status: 'fail', message: 'Invalid pagination parameters' })
+        }
+
         let queryString = "Get me news from ";
-        console.log(request.user);
         for(const interest of request.user.interests){
             queryString += interest + ","
         }
-        const res = await searchQdrant(queryString);
-        response.send({status: "Success", result: res});
+
+        const offset = (page - 1) * pageSize
+        const res = await searchQdrant(queryString, offset, pageSize)
+
+        response.send({
+            status: "success",
+            result: res,
+            page,
+            pageSize,
+            hasMore: Array.isArray(res) ? res.length === pageSize : false,
+        });
     } catch (error) {
         console.log(error);
+        next(error)
     }
 });
 router.get('/latest', async(request, response, next)=>{
     try {
         const queryString = "latest news"
-        const page = request.query.page || 1
-        if(isNaN(page)){
-            throw new Error("Page is not a number")
+        const page = Number(request.query.page) || 1
+        const pageSize = Number(request.query.pageSize) || 20
+
+        if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
+            return response.status(400).send({ status: 'fail', message: 'Invalid pagination parameters' })
         }
-        const offset = page - 1
-        const res = await searchQdrant(queryString, offset)
-        response.send({"status": "success", "result": res, msg: "this is workgin funine"})
+
+        const offset = (page - 1) * pageSize
+        const res = await searchQdrant(queryString, offset, pageSize)
+
+        response.send({
+            status: "success",
+            result: res,
+            page,
+            pageSize,
+            hasMore: Array.isArray(res) ? res.length === pageSize : false,
+            msg: "this is working fine"
+        })
     } catch (error) {
         console.log(error);
         next(error)

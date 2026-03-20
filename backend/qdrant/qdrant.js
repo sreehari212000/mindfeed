@@ -45,18 +45,19 @@ export const processNewsArrayAndStoreInQdrant = async (newsData) => {
         } 
     }
 }
-export const searchQdrant = async (text, offset = 0) => {
+export const searchQdrant = async (text, offset = 0, limit = 20) => {
     try {
         const vector = await getTextEmbedding(text);
         console.log("ENV VALUES", qdrantHost, qdrantport);
         const data = await qdrantClient.search(COLLECTION, {
             vector,
-            limit: 20,
+            limit,
             offset
         })
         return data;
     } catch (error) {
         console.log("Error searching in Qdrant ", error);
+        return [];
     }
 }
 
