@@ -34,6 +34,10 @@ Users can bookmark articles. Each user can only save an article once (with uniqu
 Clean and responsive frontend built using React.js, Tailwind CSS and Shad CN.
 #### 📦 Dockerized Setup 
 The entire app will be containerized using Docker for easy deployment.
+
+#### ⚙️ Continuous Integration (CI)
+A Docker-based CI pipeline is implemented using GitHub Actions. On every relevant code change, the pipeline builds Docker containers, starts all services (backend, PostgreSQL, Qdrant), and runs checks to ensure the system works correctly in a production-like environment.
+
 ## TODO
 #### ☁️ Cloud Deployment with AWS EKS 
 Will be deployed on AWS using Elastic Kubernetes Service for scalability.

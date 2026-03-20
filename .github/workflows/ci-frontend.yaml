@@ -1,9 +1,16 @@
-name: Continous Integration
+name: CI Frontend
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'Readme.md'
+      - '**/*.md'
+      - '.github/**'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'Readme.md'
+      - '**/*.md'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,7 +20,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: Install dependencies
+      - name: Install Frotend dependencies
         run: npm install
         working-directory: ./frontend
       - name: Build frontend
