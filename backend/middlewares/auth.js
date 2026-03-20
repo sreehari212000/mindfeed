@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import sqlConnection from "../db/postgres.js";
 export const checkAuth = async (req, res, next) => {
     try {
+        console.log("INSIDE AUTH MIDDLEWARE");
         if(!req.headers['authorization']){
             const error = new Error('You are not authorized!');
             error.statusCode = 401;

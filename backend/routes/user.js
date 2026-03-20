@@ -33,14 +33,21 @@ router.post('/signin', async(request, response, next)=>{
             error.statusCode = 404;
             throw error
         }
-        const isPasswordMatching = await bcrypt.compare(password, result.rows[0].password_hash);        
+        const isPasswordMatching = await bcrypt.compare(password, result.rows[0].password_hash);
         if(!isPasswordMatching){
             const error = new Error("You provided wrong credentials");
             error.statusCode = 401;
             throw error
         }
-        const token = jwt.sign({email}, process.env.JWT_SECRET)
-        response.status(200).send({status: "Success", token});
+        const jwtSecret = process.env.JWT_SECRET
+        if (!jwtSecret) {
+            const error = new Error('JWT_SECRET is not set in environment variables');
+            error.statusCode = 500;
+            throw error;
+        }
+        const user = result.rows[0];
+        const token = jwt.sign({id: user.id, email: user.email, interests: user.interests}, jwtSecret, {expiresIn: '7d'})
+        response.status(200).send({status: "Success", token, user: {email: user.email, interests: user.interests}});
     } catch (error) {
         console.log("Error signing in user ", error);
         next(error);

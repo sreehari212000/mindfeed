@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 
 const Navbar = () => {
-  const {user} = useContext(AppContext)
+  const { user, logout } = useContext(AppContext)
   return (
     <nav className='flex bg-black text-white p-2 justify-around items-center'>
         <div className='flex gap-2 items-center'>
@@ -14,9 +14,18 @@ const Navbar = () => {
             <Link to={'/'}>Home</Link>
             <Link to={'/saved'}>Saved</Link>
         </div>
-        <div className='flex gap-10'>
-            <Link to={'signin'}>Sign in</Link>
-            <Link to={'signup'}>Sign up</Link>
+        <div className='flex gap-10 items-center'>
+          {user ? (
+            <>
+              <span className='text-sm'>Hello, {user.email}</span>
+              <button onClick={logout} className='text-sm underline'>Sign out</button>
+            </>
+          ) : (
+            <>
+              <Link to={'signin'}>Sign in</Link>
+              <Link to={'signup'}>Sign up</Link>
+            </>
+          )}
         </div>
     </nav>
   )

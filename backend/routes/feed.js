@@ -5,6 +5,7 @@ const router = express.Router();
 router.get('/feed', checkAuth, async (request, response)=>{
     try {
         let queryString = "Get me news from ";
+        console.log(request.user);
         for(const interest of request.user.interests){
             queryString += interest + ","
         }

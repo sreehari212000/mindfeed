@@ -1,26 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import { data, Link } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import NewsCard from '../components/NewsCard'
+import { AppContext } from '../context/AppContext'
 
 const HomePage = () => {
+  const { user } = useContext(AppContext)
   const [news, setNews] = useState([])
   const [loading, setLoading] = useState(true)
-  console.log(news);
-  
+  const [error, setError] = useState('')
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
   useEffect(() => {
     const fetchFromAPI = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/news/latest`)
+        const endpoint = user ? '/api/news/feed' : '/api/news/latest'
+        const headers = {
+          'Content-Type': 'application/json',
+        }
+        if (user?.token) {
+          headers.Authorization = `Bearer ${user.token}`
+        }
+
+        const res = await fetch(`${API_URL}${endpoint}`, {
+          method: 'GET',
+          headers,
+        })
+
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}))
+          throw new Error(body.message || body.error || 'Error fetching news')
+        }
+
         const data = await res.json()
-        setNews(data.result)
-      } catch (error) {
-        console.log("Error fetching data!");
-      }finally{
+        setNews(data.result || [])
+      } catch (err) {
+        console.log('Error fetching news', err)
+        setError(err.message || 'Unable to fetch news')
+      } finally {
         setLoading(false)
       }
     }
     fetchFromAPI()
-  }, [])
+  }, [user, API_URL])
+  console.log(user);
+  
   if(loading)return
   return (
     <div className=''>
@@ -32,7 +55,7 @@ const HomePage = () => {
         </div>
         <div className='md:mx-[12%] '>
           <div className='flex justify-between my-5 items-center'>
-            <h1 className='text-2xl font-bold'>Latest News</h1>
+            {user === null ? <h1 className='text-2xl font-bold'>Latest News</h1> : <h1 className='text-2xl font-bold'>Personalised News for {user.email.split('@')[0]}</h1>}
             <p>{news.length} Articles</p>
           </div>
           <div className='flex flex-wrap gap-8 mx-14'>
