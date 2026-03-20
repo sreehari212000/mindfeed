@@ -81,14 +81,14 @@ const HomePage = () => {
               <button
                 onClick={() => setPage((prev) => Math.max(1, prev - 1))}
                 disabled={page === 1}
-                className='px-3 py-1 rounded bg-gray-800 disabled:opacity-40'
+                className={`px-3 py-1 rounded bg-gray-800 disabled:opacity-40 ${page === 1 ? 'cursor-not-allowed' : 'cursor-pointer'}  `}
               >
                 Previous
               </button>
               <button
                 onClick={() => setPage((prev) => prev + 1)}
                 disabled={!hasMore}
-                className='px-3 py-1 rounded bg-gray-800 disabled:opacity-40'
+                className={`px-3 py-1 rounded bg-gray-800 disabled:opacity-40 ${!hasMore ? 'cursor-not-allowed' : 'cursor-pointer'}  `}
               >
                 Next
               </button>
