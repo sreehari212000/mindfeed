@@ -3,8 +3,17 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+
 FROM node:22-slim
 WORKDIR /app
+
 COPY --from=builder /app .
+
+# Copy startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 EXPOSE 8000
-CMD [ "node", "server.js" ]
+
+# Replace old CMD
+CMD ["/start.sh"]
