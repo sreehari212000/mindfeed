@@ -13,7 +13,7 @@ COPY --from=builder /app .
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-EXPOSE 8000
+EXPOSE 5000
 
 # Replace old CMD
 CMD ["/start.sh"]

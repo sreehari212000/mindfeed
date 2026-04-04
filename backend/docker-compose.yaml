@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     ports:
-      - 3000:3000
+      - 5000:5000
     depends_on:
       - wait
     restart: unless-stopped
@@ -45,6 +45,13 @@ services:
       - 6333:6333
     volumes:
       - qdrant_data:/qdrant/storage  
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ../prometheus.yml:/etc/prometheus/prometheus.yml
 volumes:
   postgres_data:
   qdrant_data:
